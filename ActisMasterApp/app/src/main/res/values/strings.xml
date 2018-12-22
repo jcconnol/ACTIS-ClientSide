@@ -15,6 +15,9 @@
     <string name="text_view_landing_description_i">Intelligent</string>
     <string name="text_view_landing_description_s">Stuff</string>
     <string name="text_view_drone_1">Drone 1</string>
+    <string name="button_drone_pic">Take Picture</string>
+    <string name="text_view_relay_1">Relay 1</string>
+    <string name="text_view_relay_2">Relay 2</string>
     <string name="alert_dialog_products_loading">Loading Products</string>
     <string name="alert_dialog_product_save">Saving Product...</string>
     <string name="alert_dialog_product_delete">Deleting Product...</string>

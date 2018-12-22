@@ -14,12 +14,23 @@
     tools:context="edu.uark.uarkregisterapp.DroneListing"
     tools:showIn="@layout/activity_drone_listing">
 
-    <TextView
-        android:id="@+id/text_view_product_lookup_code"
-        android:text="@string/text_view_drone_1"
+    <Button
+        android:id="@+id/button_drone_1_pic"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="47dp"
+        android:text="@string/button_drone_pic" />
 
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="198dp"
+        app:srcCompat="@mipmap/ic_launcher" />
 
 
 </RelativeLayout>

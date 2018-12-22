@@ -126,26 +126,26 @@ public class DroneListing extends AppCompatActivity {
 
 		@Override
 		protected ApiResponse<List<Command>> doInBackground(Void... params) {
-			ApiResponse<List<Product>> apiResponse = (new ProductService()).getProducts();
+			ApiResponse<List<Command>> apiResponse = (new CommandService()).getCommands();
 
 			if (apiResponse.isValidResponse()) {
-				products.clear();
-				products.addAll(apiResponse.getData());
+				commands.clear();
+				commands.addAll(apiResponse.getData());
 			}
 
 			return apiResponse;
 		}
 
 		@Override
-		protected void onPostExecute(ApiResponse<List<Product>> apiResponse) {
+		protected void onPostExecute(ApiResponse<List<Command>> apiResponse) {
 			if (apiResponse.isValidResponse()) {
-				productListAdapter.notifyDataSetChanged();
+				commandListAdapter.notifyDataSetChanged();
 			}
 
 			this.loadingProductsAlert.dismiss();
 
 			if (!apiResponse.isValidResponse()) {
-				new AlertDialog.Builder(ProductsListingActivity.this).
+				new AlertDialog.Builder(DroneListing.this).
 						setMessage(R.string.alert_dialog_products_load_failure).
 						setPositiveButton(
 								R.string.button_dismiss,
@@ -163,12 +163,12 @@ public class DroneListing extends AppCompatActivity {
 		private AlertDialog loadingProductsAlert;
 
 		private RetrieveProductsTask() {
-			this.loadingProductsAlert = new AlertDialog.Builder(ProductsListingActivity.this).
+			this.loadingProductsAlert = new AlertDialog.Builder(DroneListing.this).
 					setMessage(R.string.alert_dialog_products_loading).
 					create();
 		}
 	}
 
-	private List<Product> products;
-	private ProductListAdapter productListAdapter;
+	private List<Command> commands;
+	private CommandListAdapter commandListAdapter;
 }
