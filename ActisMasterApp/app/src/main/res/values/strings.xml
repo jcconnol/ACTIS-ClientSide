@@ -1,0 +1,24 @@
+<resources>
+    <string name="app_name">A.C.T.I.S.</string>
+    <string name="title_activity_relay_view">Relay Listing</string>
+    <string name="title_activity_drone_view">Drone Listing</string>
+    <string name="button_ok">OK</string>
+    <string name="button_cancel">Cancel</string>
+    <string name="button_save">Save</string>
+    <string name="button_delete">Delete</string>
+    <string name="button_dismiss">Dismiss</string>
+    <string name="button_all_products">Show All Products</string>
+    <string name="text_view_landing_welcome">A.C.T.I.S.</string>
+    <string name="text_view_landing_description_a">Another</string>
+    <string name="text_view_landing_description_c">Computer</string>
+    <string name="text_view_landing_description_t">Trying</string>
+    <string name="text_view_landing_description_i">Intelligent</string>
+    <string name="text_view_landing_description_s">Stuff</string>
+    <string name="text_view_drone_1">Drone 1</string>
+    <string name="alert_dialog_products_loading">Loading Products</string>
+    <string name="alert_dialog_product_save">Saving Product...</string>
+    <string name="alert_dialog_product_delete">Deleting Product...</string>
+    <string name="alert_dialog_product_save_success">The command was successfully saved.</string>
+    <string name="alert_dialog_product_save_failure">An issue was encountered when attempting to send the command. The changes were not saved.</string>
+    <string name="alert_dialog_products_load_failure">Unable to load listing.</string>
+</resources>
