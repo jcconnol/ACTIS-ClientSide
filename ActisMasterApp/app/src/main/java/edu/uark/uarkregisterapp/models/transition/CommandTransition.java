@@ -23,11 +23,20 @@ public class CommandTransition implements Parcelable {
 	}
 
 	private boolean status;
-	public boolean getStatus() {
+	public boolean getCommandStatus() {
 		return this.status;
 	}
-	public CommandTransition setStatus(boolean status) {
+	public CommandTransition setCommandStatus(boolean status) {
 		this.status = status;
+		return this;
+	}
+
+	private String extra;
+	public String getCommandExtra() {
+		return this.extra;
+	}
+	public CommandTransition setCommandExtra(String extra) {
+		this.extra = extra;
 		return this;
 	}
 
@@ -57,10 +66,12 @@ public class CommandTransition implements Parcelable {
 
 	public CommandTransition(Command command) {
 		this.name = command.getName();
+		this.status = command.getStatus();
+		this.extra = command.getExtra();
 	}
 
 	private CommandTransition(Parcel commandTransitionParcel) {
 		this.name = commandTransitionParcel.readString();
-		//this.status = commandTransitionParcel.readBooleanArray();
+		this.extra = commandTransitionParcel.readString();
 	}
 }

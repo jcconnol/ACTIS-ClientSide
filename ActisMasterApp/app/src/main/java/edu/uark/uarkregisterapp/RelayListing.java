@@ -13,6 +13,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ToggleButton;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -22,6 +23,7 @@ import java.util.UUID;
 
 import edu.uark.uarkregisterapp.models.api.ApiResponse;
 import edu.uark.uarkregisterapp.models.api.Command;
+import edu.uark.uarkregisterapp.models.api.fields.CommandFieldName;
 import edu.uark.uarkregisterapp.models.api.fields.DroneFieldName;
 import edu.uark.uarkregisterapp.models.api.fields.RelayFieldName;
 import edu.uark.uarkregisterapp.models.api.services.CommandService;
@@ -57,19 +59,19 @@ public class RelayListing extends AppCompatActivity {
 		return false;
 	}
 
-	public void relayOneSaveButtonOnClick(View view) {
-		buttonPressName = RelayFieldName.RELAY_ONE.getFieldName();
-		(new SaveCommandTask()).execute();
+	public boolean getRelayOneButtonState() {
+        ToggleButton syncSwitch = (ToggleButton)findViewById(R.id.toggle_relay_one);
+        return syncSwitch.isChecked();
+    }
+
+	public boolean getRelayTwoButtonState() {
+        ToggleButton syncSwitch = (ToggleButton)findViewById(R.id.toggle_relay_two);
+        return syncSwitch.isChecked();
 	}
 
-	public void relayTwoSaveButtonOnClick(View view) {
-		buttonPressName = RelayFieldName.RELAY_TWO.getFieldName();
-		(new SaveCommandTask()).execute();
-	}
-
-	public void saveButtonOnClick(View view) {
-		(new SaveCommandTask()).execute();
-	}
+	public void saveButtonOnClick(View view){
+        (new SaveCommandTask()).execute();
+    }
 
 	private class SaveCommandTask extends AsyncTask<Void, Void, Boolean> {
 		@Override
@@ -79,18 +81,28 @@ public class RelayListing extends AppCompatActivity {
 
 		@Override
 		protected Boolean doInBackground(Void... params) {
-			Command command = (new Command()).
-					setName(buttonPressName);
+			Command commandOne = (new Command())
+                    .setName(RelayFieldName.RELAY_ONE.getFieldName())
+					.setStatus(getRelayOneButtonState());
 
-			ApiResponse<Command> apiResponse = (
-					(new CommandService()).updateCommand(command)
+            Command commandTwo = (new Command())
+                    .setName(RelayFieldName.RELAY_TWO.getFieldName())
+                    .setStatus(getRelayTwoButtonState());
+
+			ApiResponse<Command> apiResponseOne = (
+					(new CommandService()).updateCommand(commandOne)
 			);
 
-			if (apiResponse.isValidResponse()) {
-				commandTransition.setCommandName(apiResponse.getData().getName());
+            ApiResponse<Command> apiResponseTwo = (
+                    (new CommandService()).updateCommand(commandTwo)
+            );
+
+			if (apiResponseOne.isValidResponse() && apiResponseTwo.isValidResponse()) {
+				commandTransition.setCommandName(apiResponseOne.getData().getName());
+                return true;
 			}
 
-			return apiResponse.isValidResponse();
+			return false;
 		}
 
 		@Override
@@ -100,9 +112,9 @@ public class RelayListing extends AppCompatActivity {
 			savingCommandAlert.dismiss();
 
 			if (successfulSave) {
-				message = getString(R.string.alert_dialog_product_save_success);
+				message = getString(R.string.alert_dialog_command_save_success);
 			} else {
-				message = getString(R.string.alert_dialog_product_save_failure);
+				message = getString(R.string.alert_dialog_command_save_failure);
 			}
 
 			new AlertDialog.Builder(RelayListing.this).
@@ -123,11 +135,12 @@ public class RelayListing extends AppCompatActivity {
 
 		private SaveCommandTask() {
 			this.savingCommandAlert = new AlertDialog.Builder(RelayListing.this).
-					setMessage(R.string.alert_dialog_product_save).
+					setMessage(R.string.alert_dialog_command_save).
 					create();
 		}
 	}
 
-	private String buttonPressName;
+    private boolean relayOneStatus;
+	private boolean relayTwoStatus;
 	private CommandTransition commandTransition;
 }

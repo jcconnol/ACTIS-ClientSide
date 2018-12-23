@@ -14,9 +14,8 @@
     tools:context="edu.uark.uarkregisterapp.RelayListing"
     tools:showIn="@layout/activity_relay_listing">
 
-
-    <Button
-        android:id="@+id/relay_one"
+    <ToggleButton
+        android:id="@+id/toggle_relay_one"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
@@ -24,12 +23,23 @@
         android:layout_marginTop="102dp"
         android:text="@string/text_view_relay_1" />
 
-    <Button
-        android:id="@+id/relay_two"
+    <ToggleButton
+        android:id="@+id/toggle_relay_two"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/relay_one"
+        android:layout_alignStart="@+id/toggle_relay_one"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="208dp"
         android:text="@string/text_view_relay_2" />
+
+    <Button
+        android:id="@+id/save_relay_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/toggle_relay_two"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="79dp"
+        android:text="@string/button_save"
+        android:onClick="saveButtonOnClick"/>
+
 </RelativeLayout>

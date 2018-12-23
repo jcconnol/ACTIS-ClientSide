@@ -27,10 +27,20 @@ public class Command implements ConvertToJsonInterface, LoadFromJsonInterface<Co
 		return this;
 	}
 
+	private String extra;
+	public String getExtra() {
+		return this.extra;
+	}
+	public Command setExtra(String extra) {
+		this.extra = extra;
+		return this;
+	}
+
 	@Override
 	public Command loadFromJson(JSONObject rawJsonObject) {
 		this.name = rawJsonObject.optString(CommandFieldName.COMMAND_NAME.getFieldName());
 		this.status = rawJsonObject.optBoolean(CommandFieldName.STATUS.getFieldName());
+		this.extra = rawJsonObject.optString(CommandFieldName.EXTRA.getFieldName());
 		return this;
 	}
 
@@ -41,6 +51,7 @@ public class Command implements ConvertToJsonInterface, LoadFromJsonInterface<Co
 		try {
 			jsonObject.put(CommandFieldName.COMMAND_NAME.getFieldName(), this.name);
 			jsonObject.put(CommandFieldName.STATUS.getFieldName(), this.status);
+			jsonObject.put(CommandFieldName.EXTRA.getFieldName(), this.extra);
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
@@ -53,8 +64,9 @@ public class Command implements ConvertToJsonInterface, LoadFromJsonInterface<Co
 		this.status = false;
 	}
 
-	public Command(CommandTransition contactTransition) {
-		this.name = contactTransition.getCommandName();
-		this.status = contactTransition.getStatus();
+	public Command(CommandTransition commandTransition) {
+		this.name = commandTransition.getCommandName();
+		this.status = commandTransition.getCommandStatus();
+		this.extra = commandTransition.getCommandExtra();
 	}
 }

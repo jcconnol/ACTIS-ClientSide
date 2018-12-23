@@ -2,15 +2,19 @@ package edu.uark.uarkregisterapp;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Base64;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
 
 import java.util.ArrayList;
@@ -53,8 +57,11 @@ public class DroneListing extends AppCompatActivity {
 		return false;
 	}
 
-	public void DroneSaveButtonOnClick(View view) {
-		buttonPressName = DroneFieldName.DRONE_ONE.getFieldName();
+	public void droneUpdateButtonOnClick(View view){
+		(new RetrieveDroneTask()).execute();
+	}
+
+	public void droneSaveButtonOnClick(View view) {
 		(new SaveCommandTask()).execute();
 	}
 
@@ -67,7 +74,7 @@ public class DroneListing extends AppCompatActivity {
 		@Override
 		protected Boolean doInBackground(Void... params) {
 			Command command = (new Command()).
-					setName(buttonPressName);
+					setName(DroneFieldName.DRONE_ONE.getFieldName());
 
 			ApiResponse<Command> apiResponse = (
 					(new CommandService()).updateCommand(command)
@@ -87,9 +94,9 @@ public class DroneListing extends AppCompatActivity {
 			savingCommandAlert.dismiss();
 
 			if (successfulSave) {
-				message = getString(R.string.alert_dialog_product_save_success);
+				message = getString(R.string.alert_dialog_command_save_success);
 			} else {
-				message = getString(R.string.alert_dialog_product_save_failure);
+				message = getString(R.string.alert_dialog_command_save_failure);
 			}
 
 			new AlertDialog.Builder(DroneListing.this).
@@ -110,43 +117,45 @@ public class DroneListing extends AppCompatActivity {
 
 		private SaveCommandTask() {
 			this.savingCommandAlert = new AlertDialog.Builder(DroneListing.this).
-					setMessage(R.string.alert_dialog_product_save).
+					setMessage(R.string.alert_dialog_command_save).
 					create();
 		}
 	}
 
-	private String buttonPressName;
 	private CommandTransition commandTransition;
 
-	private class RetrieveProductsTask extends AsyncTask<Void, Void, ApiResponse<List<Command>>> {
+	private class RetrieveDroneTask extends AsyncTask<Void, Void, ApiResponse<Command>> {
 		@Override
 		protected void onPreExecute() {
-			this.loadingProductsAlert.show();
+			this.loadingCommandAlert.show();
 		}
 
 		@Override
-		protected ApiResponse<List<Command>> doInBackground(Void... params) {
-			ApiResponse<List<Command>> apiResponse = (new CommandService()).getCommands();
+		protected ApiResponse<Command> doInBackground(Void... params) {
+			ApiResponse<Command> apiResponse = (new CommandService()).getCommandByName(DroneFieldName.DRONE_ONE.getFieldName());
 
 			if (apiResponse.isValidResponse()) {
-				commands.clear();
-				commands.addAll(apiResponse.getData());
+				command = new Command();
+				command = apiResponse.getData();
 			}
 
 			return apiResponse;
 		}
 
 		@Override
-		protected void onPostExecute(ApiResponse<List<Command>> apiResponse) {
+		protected void onPostExecute(ApiResponse<Command> apiResponse) {
 			if (apiResponse.isValidResponse()) {
-				commandListAdapter.notifyDataSetChanged();
+				ImageView image =(ImageView)findViewById(R.id.image_view_drone_one);
+				byte[]imageBytes = Base64.decode(command.getExtra(), Base64.DEFAULT);
+				Bitmap decodedImage = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
+				image.setImageBitmap(decodedImage);
 			}
 
-			this.loadingProductsAlert.dismiss();
+			this.loadingCommandAlert.dismiss();
 
 			if (!apiResponse.isValidResponse()) {
 				new AlertDialog.Builder(DroneListing.this).
-						setMessage(R.string.alert_dialog_products_load_failure).
+						setMessage(R.string.alert_dialog_commands_load_failure).
 						setPositiveButton(
 								R.string.button_dismiss,
 								new DialogInterface.OnClickListener() {
@@ -160,15 +169,14 @@ public class DroneListing extends AppCompatActivity {
 			}
 		}
 
-		private AlertDialog loadingProductsAlert;
+		private AlertDialog loadingCommandAlert;
 
-		private RetrieveProductsTask() {
-			this.loadingProductsAlert = new AlertDialog.Builder(DroneListing.this).
-					setMessage(R.string.alert_dialog_products_loading).
+		private RetrieveDroneTask() {
+			this.loadingCommandAlert = new AlertDialog.Builder(DroneListing.this).
+					setMessage(R.string.alert_dialog_command_loading).
 					create();
 		}
 	}
 
-	private List<Command> commands;
-	private CommandListAdapter commandListAdapter;
+	private Command command;
 }

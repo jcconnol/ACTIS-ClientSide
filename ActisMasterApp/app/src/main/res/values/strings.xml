@@ -18,10 +18,10 @@
     <string name="button_drone_pic">Take Picture</string>
     <string name="text_view_relay_1">Relay 1</string>
     <string name="text_view_relay_2">Relay 2</string>
-    <string name="alert_dialog_products_loading">Loading Products</string>
-    <string name="alert_dialog_product_save">Saving Product...</string>
-    <string name="alert_dialog_product_delete">Deleting Product...</string>
-    <string name="alert_dialog_product_save_success">The command was successfully saved.</string>
-    <string name="alert_dialog_product_save_failure">An issue was encountered when attempting to send the command. The changes were not saved.</string>
-    <string name="alert_dialog_products_load_failure">Unable to load listing.</string>
+    <string name="alert_dialog_command_loading">Loading Command</string>
+    <string name="alert_dialog_command_save">Sending Command...</string>
+    <string name="alert_dialog_command_delete">Deleting Command...</string>
+    <string name="alert_dialog_command_save_success">The command was successfully sent.</string>
+    <string name="alert_dialog_command_save_failure">An issue was encountered when attempting to send the command. The changes were not saved.</string>
+    <string name="alert_dialog_commands_load_failure">Unable to load listing.</string>
 </resources>

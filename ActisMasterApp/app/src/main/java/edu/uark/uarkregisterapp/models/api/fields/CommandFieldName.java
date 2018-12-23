@@ -5,7 +5,8 @@ import edu.uark.uarkregisterapp.models.api.interfaces.FieldNameInterface;
 public enum CommandFieldName implements FieldNameInterface {
 
 	COMMAND_NAME("commandName"),
-	STATUS("status");
+	STATUS("status"),
+	EXTRA("extra");
 
 	private String fieldName;
 	public String getFieldName() {
